@@ -128,12 +128,12 @@ async function handleTicketOpen(interaction) {
   const answersBlock = answers.length
     ? '\n\n' + answers.map((a) => `**${a.question}**\n${a.answer}`).join('\n\n')
     : '';
-  const notesBlock = categoryDef.notes ? `\n\n⚠️ ${categoryDef.notes}` : '';
+  const notesBlock = categoryDef.notes ? `\n\n${categoryDef.notes}` : '';
 
   const embed = new EmbedBuilder()
     .setTitle(categoryDef.label)
     .setDescription(
-      `${interaction.user}, thanks for opening a ticket.\n\n${categoryDef.description}${notesBlock}${answersBlock}\n\nStaff will be with you shortly.`
+      `${interaction.user}, thanks for opening a ticket.${notesBlock}${answersBlock}\n\nStaff will be with you shortly.`
     )
     .setColor(config.embedColor);
 
