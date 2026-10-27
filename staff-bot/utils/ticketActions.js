@@ -92,7 +92,7 @@ async function closeChannel(interaction) {
   }
 
 
-  await interaction.reply({ embeds: [systemEmbed('🔒 Closing ticket, making a transcript...')] });
+  await interaction.reply({ embeds: [systemEmbed('Closing ticket, making a transcript...')] });
 
   await finishClose(
     interaction,
@@ -120,7 +120,7 @@ async function finishClose(interaction, meta, logText) {
     try {
       const opener = await interaction.client.users.fetch(meta.openerId);
       const closedEmbed = new EmbedBuilder()
-        .setTitle('🔒 Ticket Closed')
+        .setTitle('Ticket Closed')
         .setDescription(
           `Hello **${opener.username}**,\n\n` +
             `Your ticket (\`${channel.name}\`) has been closed.\n` +
@@ -233,7 +233,7 @@ async function handleCloseAgree(interaction) {
     embeds: [systemEmbed(`${interaction.user} agreed to close this ticket.`)],
     components: [],
   });
-  await interaction.followUp({ embeds: [systemEmbed('🔒 Closing ticket, making a transcript...')] });
+  await interaction.followUp({ embeds: [systemEmbed('Closing ticket, making a transcript...')] });
 
   await finishClose(
     interaction,
@@ -298,7 +298,7 @@ async function renameChannel(interaction, newName) {
 
   await logToChannel(
     interaction,
-    `✏️ ${interaction.user} renamed ticket **#${oldName}** to \`${sanitized}\`.`
+    `${interaction.user} renamed ticket **#${oldName}** to \`${sanitized}\`.`
   );
 }
 
@@ -335,7 +335,6 @@ function closeButton() {
   return new ButtonBuilder()
     .setCustomId('ticket_close_btn')
     .setLabel('Close Ticket')
-    .setEmoji('✖️')
     .setStyle(ButtonStyle.Danger);
 }
 
@@ -345,8 +344,6 @@ function claimedRow() {
       .setCustomId('ticket_unclaim_btn')
       .setLabel('Unclaim Ticket')
       .setStyle(ButtonStyle.Secondary),
-    renameButton(),
-    requestCloseButton(),
     closeButton()
   );
 }
@@ -356,17 +353,14 @@ function unclaimedRow() {
     new ButtonBuilder()
       .setCustomId('ticket_claim_btn')
       .setLabel('Claim Ticket')
-      .setEmoji('✅')
       .setStyle(ButtonStyle.Success),
-    renameButton(),
-    requestCloseButton(),
     closeButton()
   );
 }
 
 // Application tickets have no Claim button (it's not a support ticket).
 function noClaimRow() {
-  return new ActionRowBuilder().addComponents(renameButton(), requestCloseButton(), closeButton());
+  return new ActionRowBuilder().addComponents(closeButton());
 }
 
 // Claiming a ticket locks SendMessages on every role that normally has
@@ -430,7 +424,7 @@ async function claimTicket(interaction) {
 
   await logToChannel(
     interaction,
-    `🔒 ${interaction.user} claimed ticket **#${interaction.channel.name}**.`
+    `${interaction.user} claimed ticket **#${interaction.channel.name}**.`
   );
 }
 
@@ -476,12 +470,12 @@ async function unclaimTicket(interaction) {
     components: [unclaimedRow()],
   });
   await interaction.followUp({
-    embeds: [systemEmbed(`🔓 Ticket unclaimed by ${interaction.user} — staff can type here again.`)],
+    embeds: [systemEmbed(`Ticket unclaimed by ${interaction.user} — staff can type here again.`)],
   });
 
   await logToChannel(
     interaction,
-    `🔓 ${interaction.user} unclaimed ticket **#${interaction.channel.name}**.`
+    `${interaction.user} unclaimed ticket **#${interaction.channel.name}**.`
   );
 }
 
