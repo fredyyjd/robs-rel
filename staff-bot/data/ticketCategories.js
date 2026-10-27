@@ -1,4 +1,4 @@
-// The 4 ticket categories shown as buttons on the ticket panel.
+// The 5 ticket categories shown as buttons on the ticket panel.
 // `questions` are asked in a form as soon as someone presses the button.
 // `notes` (optional) is an FYI line shown in the ticket.
 module.exports = [
@@ -33,5 +33,12 @@ module.exports = [
     label: 'Giveaway Sponsor',
     description: 'Open this if you want to sponsor a giveaway.',
     questions: ['How much do you want to sponsor?', "What's your IGN?"],
+  },
+  {
+    id: 'partner',
+    style: 'Primary',
+    label: 'Partner',
+    description: 'Open this if you want to partner with us.',
+    questions: ["What's your server name?", 'How many members does it have?', 'Link to your server'],
   },
 ];
