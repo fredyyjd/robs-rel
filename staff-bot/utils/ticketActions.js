@@ -70,8 +70,19 @@ async function logToChannel(interaction, description, files) {
   }
 }
 
+// Staff = normal staff (isStaff) OR anyone holding one of this ticket's
+// category roles (config.ticketCategories.<id>.pingRoleIds). The second part
+// is what lets e.g. the spawner role run its own tickets when the general
+// staff role is locked out of them.
+function isTicketStaff(interaction) {
+  if (isStaff(interaction.member)) return true;
+  const meta = getTicketMeta(interaction.channel);
+  const catCfg = (meta && config.ticketCategories[meta.category]) || {};
+  return (catCfg.pingRoleIds || []).some((id) => id && interaction.member.roles.cache.has(id));
+}
+
 async function closeChannel(interaction) {
-  if (!isStaff(interaction.member)) {
+  if (!isTicketStaff(interaction)) {
     return interaction.reply({ content: 'Only staff can close this.', flags: MessageFlags.Ephemeral });
   }
 
@@ -153,7 +164,7 @@ async function finishClose(interaction, meta, logText) {
 const closing = new Set();
 
 async function requestClose(interaction) {
-  if (!isStaff(interaction.member)) {
+  if (!isTicketStaff(interaction)) {
     return interaction.reply({ content: 'Only staff can request to close this.', flags: MessageFlags.Ephemeral });
   }
 
@@ -251,7 +262,7 @@ async function handleCloseDisagree(interaction) {
 }
 
 async function renameChannel(interaction, newName) {
-  if (!isStaff(interaction.member)) {
+  if (!isTicketStaff(interaction)) {
     return interaction.reply({ content: 'Only staff can rename this.', flags: MessageFlags.Ephemeral });
   }
 
@@ -366,7 +377,7 @@ function noClaimRow() {
 // they can keep talking, and ALWAYS_CAN_TYPE_ROLE_ID is skipped entirely so
 // that role can always type even in a claimed ticket.
 async function claimTicket(interaction) {
-  if (!isStaff(interaction.member)) {
+  if (!isTicketStaff(interaction)) {
     return interaction.reply({ content: 'Only staff can claim tickets.', flags: MessageFlags.Ephemeral });
   }
 
@@ -424,7 +435,7 @@ async function claimTicket(interaction) {
 }
 
 async function unclaimTicket(interaction) {
-  if (!isStaff(interaction.member)) {
+  if (!isTicketStaff(interaction)) {
     return interaction.reply({ content: 'Only staff can unclaim tickets.', flags: MessageFlags.Ephemeral });
   }
 
@@ -491,7 +502,7 @@ function renameModal() {
 }
 
 async function handleRenameButton(interaction) {
-  if (!isStaff(interaction.member)) {
+  if (!isTicketStaff(interaction)) {
     return interaction.reply({ content: 'Only staff can rename this.', flags: MessageFlags.Ephemeral });
   }
 
@@ -511,7 +522,7 @@ async function handleRenameModalSubmit(interaction) {
 // /ticket add user:<user> — staff only, adds someone to whatever ticket or
 // application-ticket channel the command is run in.
 async function addUserToTicket(interaction, user) {
-  if (!isStaff(interaction.member)) {
+  if (!isTicketStaff(interaction)) {
     return interaction.reply({ content: 'Only staff can add someone to a ticket.', flags: MessageFlags.Ephemeral });
   }
 
