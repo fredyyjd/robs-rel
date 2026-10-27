@@ -100,7 +100,9 @@ async function handleTicketOpen(interaction) {
       name: `${categoryDef.id.replace(/_/g, '-')}-${interaction.user.username}`,
       parentId: catCfg.categoryId,
       openerId: interaction.user.id,
-      roleIds: [config.staffRoleId, ...pingRoleIds, config.alwaysCanTypeRoleId],
+      // `exclusive: true` on a category = ONLY its pingRoleIds can see the ticket
+      // (the general staff role is left out).
+      roleIds: [catCfg.exclusive ? null : config.staffRoleId, ...pingRoleIds, config.alwaysCanTypeRoleId],
     }));
   } catch (err) {
     console.error(
