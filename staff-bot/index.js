@@ -10,10 +10,10 @@ if (!config.token) {
 }
 
 const client = new Client({
-  // Guilds: slash commands / buttons. DirectMessages: the DM application flow.
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.DirectMessages],
+  // Guilds: slash commands / buttons. GuildMembers: welcome/leave messages. DirectMessages: the DM application flow.
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.DirectMessages],
   // Channel + Message partials are required for DMs to arrive.
-  partials: [Partials.Channel, Partials.Message],
+  partials: [Partials.Channel, Partials.Message, Partials.GuildMember, Partials.User],
 
   // Low-memory setup (small VPS): keep few messages and drop caches the bot never reads.
   makeCache: Options.cacheWithLimits({
