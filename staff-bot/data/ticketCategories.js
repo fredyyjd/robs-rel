@@ -1,4 +1,4 @@
-// The 5 ticket categories shown as buttons on the ticket panel.
+// The 4 ticket categories shown as buttons on the ticket panel.
 // `questions` are asked in a form as soon as someone presses the button.
 // `notes` (optional) is an FYI line shown in the ticket.
 module.exports = [
@@ -8,17 +8,6 @@ module.exports = [
     label: 'Support',
     description: 'Open this if you want help or assistance with anything.',
     questions: ['What do you need help with?', "What's your IGN?"],
-  },
-  {
-    id: 'staff_report',
-    style: 'Secondary', // button colour: Danger=red, Success=green, Primary=blue, Secondary=grey
-    label: 'Staff Report',
-    description: 'Open this if a staff / builder did something wrong.',
-    questions: [
-      'Are you reporting a staff or a member?',
-      'What did they do?',
-      'Do you have any proof?',
-    ],
   },
   {
     id: 'buy_sell_spawner',
